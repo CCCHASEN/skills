@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environment
+.venv/
+
+# Database / runtime data (will be regenerated)
+memory/.sessions.db
+memory/.chroma/
+memory/.memory_graph.pkl
+memory/.query_embeds.json
+memory/.topic_state.json
+memory/.DS_Store
+
+# OS
+.DS_Store
