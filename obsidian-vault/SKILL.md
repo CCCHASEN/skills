@@ -6,6 +6,41 @@ license: Proprietary
 
 # Obsidian Vault Manager
 
+Filesystem-first Obsidian vault operations. All vault work starts with resolving the vault path, then using the right file tool for the job.
+
+## Vault Basics
+
+### Resolve the Vault Path
+
+Use a known or resolved vault path before calling file tools.
+
+The documented convention is the `OBSIDIAN_VAULT_PATH` environment variable (from `~/.hermes/.env`). If unset, fall back to `~/Documents/Obsidian Vault`.
+
+> **Important:** File tools do not expand shell variables. Resolve the path first (via `terminal` if needed), then pass the concrete absolute path to `read_file`, `write_file`, `patch`, or `search_files`.
+
+### Read Notes
+
+Use `read_file` with the resolved absolute path. Prefer this over `cat` — it provides line numbers and pagination.
+
+### Search
+
+Use `search_files` for both filename and content searches. Prefer this over `grep`, `find`, or `ls`.
+
+- **Filenames:** `search_files` with `target: "files"` and a filename `pattern`.
+- **Contents:** `search_files` with `target: "content"`, the content regex as `pattern`, and `file_glob: "*.md"` to restrict to markdown notes.
+
+### Create & Edit
+
+- **Create:** `write_file` with the resolved absolute path and full markdown content. Prefer this over shell heredocs to avoid quoting issues.
+- **Append:** Read the note with `read_file`, then use `patch` for anchored appends (adding after a stable heading). Use `write_file` only when rewriting the whole note is clearer.
+- **Targeted edits:** `patch` for focused changes when the current content gives stable context.
+
+### Wikilinks
+
+Obsidian links notes with `[[Note Name]]` syntax. Use these when creating notes to link related content.
+
+---
+
 ## Generation Priority Hierarchy
 
 1. **User's latest stated requirements** in the current conversation
